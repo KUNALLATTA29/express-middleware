@@ -6,6 +6,12 @@ const app = express()
 const port  = 8000
 app.use(express.urlencoded({extended:true}))
 
+app.use((req,res,next)=>{
+    fs.appendFile('logs.txt',`\n${Date.now()}: ${req.ip} ${req.method}: ${req.path}`,(err,data)=>{
+        next()
+    })
+})
+
 app.get('/api/users',(req,res)=>{
     return res.json(users)
 })
